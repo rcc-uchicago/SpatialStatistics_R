@@ -83,7 +83,6 @@ library(classInt)
 ```
 
 ```{r}
-setwd("C:\\Workspace\\Statbook")
 pr <- readShapePoly("PuertoRico_SPCS.shp")
 pr.nb <- read.gal("PuertoRico.GAL")
 pr.listw <- nb2listw(pr.nb, style="B")
