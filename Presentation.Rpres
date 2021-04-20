@@ -15,21 +15,14 @@ Topics
 
 - Creating contour-type maps and semivariance using inverse distance weighting and geostatistical methods using gstat
 
-First Slide
-========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+```{r, echo=FALSE}
+library(pacman)
+p_load(tidyverse)
+p_load(tidyverse)
+p_load(spatstat)
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
-========================================================
-
-```{r, eval=FALSE}
-summary(cars)
-```
+``````
 
 Data set
 ========================================================
@@ -38,8 +31,9 @@ Data set
 setwd("~/GitHub/SpatialStatistics_R")
 snow_deaths<-read.csv("./data/snow_deaths.csv")
 snow_pumps<-read.csv("./data/snow_pumps.csv")
+PointPatterns <-read.csv("./data/PointPatterns.csv")
 
-
+head(PointPatterns)
 head(snow_deaths)
 head(snow_pumps)
 ```
@@ -51,7 +45,7 @@ Point Patterns
 - A point pattern is a statistical map where the location of the event is the outcome of a process 
 - A point pattern is given by a set of events of interest that are observed in a region $R$
 - A region has an infinite number of points (coordinates) on the plane 
-- Point patterns must be a complete _enumeration_ meaning every event that happened has been recorded
+
 
 Processes and Point Patterns
 ========================================================
@@ -64,8 +58,13 @@ Tidyverse and plotting
 'Tidyverse' is a collection of R packages designed for data science used in everyday data analyses  
 
 ```{r}
-library(pacman)
-p_load(tidyverse)
+ggplot() + 
+  geom_point(data = PointPatterns, aes(x = x, y = y)) + facet_grid(.~ Pattern) +
+  coord_fixed()
+```
+
+```{r}
+
 ```
 
 
@@ -76,3 +75,4 @@ ggplot() +
   geom_point(data = snow_deaths, aes(x = long, y = lat), color = "blue", shape = 16) +
   geom_point(data = snow_pumps, aes(x = long, y = lat), color = "black", shape = 17)
 ```
+

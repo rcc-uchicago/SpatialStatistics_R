@@ -15,25 +15,21 @@ Topics
 
 - Creating contour-type maps and semivariance using inverse distance weighting and geostatistical methods using gstat
 
-First Slide
-========================================================
-
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
-========================================================
 
 
-```r
-summary(cars)
-```
 
 Data set
 ========================================================
+
+```
+           x         y   Pattern
+1 0.94197211 0.7974379 Pattern 1
+2 0.13781785 0.3987660 Pattern 1
+3 0.91724039 0.5009251 Pattern 1
+4 0.44506391 0.8496535 Pattern 1
+5 0.08929414 0.7491451 Pattern 1
+6 0.83093139 0.6813998 Pattern 1
+```
 
 ```
   X       long      lat Id Count
@@ -62,7 +58,7 @@ Point Patterns
 - A point pattern is a statistical map where the location of the event is the outcome of a process 
 - A point pattern is given by a set of events of interest that are observed in a region $R$
 - A region has an infinite number of points (coordinates) on the plane 
-- Point patterns must be a complete _enumeration_ meaning every event that happened has been recorded
+
 
 Processes and Point Patterns
 ========================================================
@@ -76,9 +72,14 @@ Tidyverse and plotting
 
 
 ```r
-library(pacman)
-p_load(tidyverse)
+ggplot() + 
+  geom_point(data = PointPatterns, aes(x = x, y = y)) + facet_grid(.~ Pattern) +
+  coord_fixed()
 ```
+
+![plot of chunk unnamed-chunk-3](Presentation-figure/unnamed-chunk-3-1.png)
+
+
 
 
 The function 'ggplot' is used for data visualization - it creates a graph. The function 'geom_point' tells R you want to create a plot of points. 'data = snow_deaths' tells R you want to use the 'snow_deaths' dataframe. 'aes' stands for aesthetics of your graph where 'x = long' sets the x axis to 'long', where 'y = lat' sets the y axis to 'lat', where 'color = blue' colours the points blue and 'shape = 16' assigns the shape of the points - in this case, '16' are circles and '17' are triangles  
@@ -90,4 +91,5 @@ ggplot() +
   geom_point(data = snow_pumps, aes(x = long, y = lat), color = "black", shape = 17)
 ```
 
-![plot of chunk unnamed-chunk-4](Presentation-figure/unnamed-chunk-4-1.png)
+![plot of chunk unnamed-chunk-5](Presentation-figure/unnamed-chunk-5-1.png)
+
