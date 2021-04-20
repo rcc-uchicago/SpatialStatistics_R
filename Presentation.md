@@ -93,3 +93,28 @@ ggplot() +
 
 ![plot of chunk unnamed-chunk-5](Presentation-figure/unnamed-chunk-5-1.png)
 
+
+```r
+library(spdep)
+library(RColorBrewer)
+library(classInt)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+Error in setwd("C:\\Workspace\\Statbook") : 
+  cannot change working directory
+```

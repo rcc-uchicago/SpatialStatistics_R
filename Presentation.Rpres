@@ -76,3 +76,75 @@ ggplot() +
   geom_point(data = snow_pumps, aes(x = long, y = lat), color = "black", shape = 17)
 ```
 
+```{r}
+library(spdep)
+library(RColorBrewer)
+library(classInt)
+```
+
+```{r}
+setwd("C:\\Workspace\\Statbook")
+pr <- readShapePoly("PuertoRico_SPCS.shp")
+pr.nb <- read.gal("PuertoRico.GAL")
+pr.listw <- nb2listw(pr.nb, style="B")
+```
+
+```{r}
+# Plotting Spatal connectivity 
+cent <- coordinates(pr)
+plot(pr, lwd=1.5)
+plot(pr.nb, cent, add=T, col="red")
+```
+
+```{r}
+# Farm Density in 2007
+farm.den07 <- pr$nofarms_07/pr$area
+
+# Mapping Farm Density in 2007
+#pal.gray <- gray.colors(5)
+pal.red <- brewer.pal(5,"Reds")
+q5.den <- classIntervals(farm.den07,5,style="quantile") 
+cols.den <- findColours(q5.den, pal.red)
+plot(pr, col=cols.den)
+brks.den <- round(q5.den$brks,3)
+leg.txt  <- paste(brks.den[-6], brks.den[-1], sep=" - ")
+legend("bottomright", fill=attr(cols.den,"palette"), legend=leg.txt ,bty="n")
+```
+
+```{r}
+# Spatial autocorrelation tests
+moran.test(farm.den07, pr.listw)
+geary.test(farm.den07, pr.listw)
+
+# Moran Scatterplot
+moran.plot(farm.den07, pr.listw, pch=20)
+```
+
+```{r}
+# Variogram
+library(gstat)
+pr.v <- variogram(farm.den07 ~ 1,  pr)
+pr.v.fit <- fit.variogram(pr.v, vgm(11,"Sph", "30000", 1))
+plot(pr.v, pr.v.fit)
+
+# Farm Density in 2002
+farm.den02 <- pr$nofarms_02/pr$area
+```
+
+```{r}
+# Run a regression model
+lm.farm <- lm(farm.den07 ~ farm.den02)
+summary(lm.farm)
+lm.morantest(lm.farm,pr.listw)
+```
+
+```{r}
+# Mapping residuals of the regression model
+res <- resid(lm.farm)
+q5.res <- classIntervals(res,5,style="quantile")
+cols.res <- findColours(q5.res, pal.red)
+plot(pr, col=cols.res)
+brks.res <- round(q5.res$brks,3)
+leg.txt  <- paste(brks.res[-6], brks.res[-1], sep=" - ")
+legend("bottomright", fill=attr(cols.res,"palette"), legend=leg.txt ,bty="n")
+```
